@@ -48,7 +48,11 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     filter.type = { $regex: req.query.type, $options: "i" };
   }
 
+  console.log(filter);
+
   const products = await Product.find(filter);
+
+  console.log(products);
 
   const message =
     products.length === 0
@@ -70,17 +74,17 @@ export const getSingleProduct = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "product added successfully", product));
 });
 
-export const findbyName = asyncHandler(async (req, res) => {
-  const product = await Product.findOne({ name: req.params.name });
+// export const findbyName = asyncHandler(async (req, res) => {
+//   const product = await Product.findOne({ name: req.params.name });
 
-  if (!product) {
-    throw new ApiError(404, "no product found with this name");
-  }
+//   if (!product) {
+//     throw new ApiError(404, "no product found with this name");
+//   }
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "product found successfully", product));
-});
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, "product found successfully", product));
+// });
 
 export const updateProduct = asyncHandler(async (req, res) => {
   const { name, description, type, price, date } = req.body;
@@ -130,19 +134,51 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 // export const categoriesByDate = asyncHandler(async (req, res) => {
 //   const products = await Product.find();
 
-//   const today = new Date();
+//   const today = new Date().toISOString().split("T")[0];
 
+//   const sevenDaysAgo = new Date(Date.now() - 6 * 86400000)
+//     .toISOString()
+//     .split("T")[0];
+//   const thirtyDaysAgo = new Date(Date.now() - 29 * 86400000)
+//     .toISOString()
+//     .split("T")[0];
+
+//   const categories = {
+//     today: [],
+//     weekly: [],
+//     monthly: [],
+//   };
+
+//   products.forEach((product) => {
+//     const productDate = product.date.toISOString().split("T")[0];
+
+//     if (productDate === today) {
+//       categories.today.push(product);
+//     }
+
+//     if (productDate >= sevenDaysAgo && productDate <= today) {
+//       categories.weekly.push(product);
+//     }
+
+//     if (productDate >= thirtyDaysAgo && productDate <= today) {
+//       categories.monthly.push(product);
+//     }
+//   });
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, "Products grouped by date.", categories));
 // });
 
 export const categorizeProductsByDate = asyncHandler(async (req, res) => {
   const products = await Product.find();
 
   const today = new Date();
-  const startOfToday = new Date(today.toISOString().split("T")[0]); 
+  const startOfToday = new Date(today.toISOString().split("T")[0]);
   const sevenDaysAgo = new Date(startOfToday);
-  sevenDaysAgo.setDate(startOfToday.getDate() - 6); 
+  sevenDaysAgo.setDate(startOfToday.getDate() - 6);
   const thirtyDaysAgo = new Date(startOfToday);
-  thirtyDaysAgo.setDate(startOfToday.getDate() - 29); 
+  thirtyDaysAgo.setDate(startOfToday.getDate() - 29);
 
   const categories = {
     today: [],
