@@ -126,3 +126,47 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "product delete successfully", product));
 });
+
+// export const categoriesByDate = asyncHandler(async (req, res) => {
+//   const products = await Product.find();
+
+//   const today = new Date();
+
+// });
+
+export const categorizeProductsByDate = asyncHandler(async (req, res) => {
+  const products = await Product.find();
+
+  const today = new Date();
+  const startOfToday = new Date(today.toISOString().split("T")[0]); 
+  const sevenDaysAgo = new Date(startOfToday);
+  sevenDaysAgo.setDate(startOfToday.getDate() - 6); 
+  const thirtyDaysAgo = new Date(startOfToday);
+  thirtyDaysAgo.setDate(startOfToday.getDate() - 29); 
+
+  const categories = {
+    today: [],
+    weekly: [],
+    monthly: [],
+  };
+
+  products.forEach((product) => {
+    const productDate = new Date(product.date.toISOString().split("T")[0]);
+
+    if (productDate.getTime() === startOfToday.getTime()) {
+      categories.today.push(product);
+    }
+
+    if (productDate >= sevenDaysAgo && productDate <= startOfToday) {
+      categories.weekly.push(product);
+    }
+
+    if (productDate >= thirtyDaysAgo && productDate <= startOfToday) {
+      categories.monthly.push(product);
+    }
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Products grouped by date.", categories));
+});
