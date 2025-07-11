@@ -20,3 +20,7 @@ connectDB()
     console.log("Error connecting to database:", err);
     process.exit(1);
   });
+
+  app.get("/", (req, res) => {
+  res.send("<h1>Hello from Vercel</h1>");
+});
