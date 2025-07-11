@@ -21,6 +21,3 @@ connectDB()
     process.exit(1);
   });
 
-export default function handler(req, res) {
-  res.status(200).json({ message: "Hello from serverless!" });
-}
