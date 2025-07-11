@@ -48,11 +48,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     filter.type = { $regex: req.query.type, $options: "i" };
   }
 
-  console.log(filter);
-
   const products = await Product.find(filter);
-
-  console.log(products);
 
   const message =
     products.length === 0

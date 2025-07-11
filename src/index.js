@@ -20,7 +20,3 @@ connectDB()
     console.log("Error connecting to database:", err);
     process.exit(1);
   });
-
-export default function handler(req, res) {
-  app(req, res);
-}
