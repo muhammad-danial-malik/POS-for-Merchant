@@ -27,6 +27,10 @@ import productRouter from "./routes/product.routes.js";
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Hello from serverless!" });
+});
+
 app.use(errorHandler);
 
 export default app;

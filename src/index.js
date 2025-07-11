@@ -21,3 +21,6 @@ connectDB()
     process.exit(1);
   });
 
+export default function handler(req, res) {
+  app(req, res);
+}
