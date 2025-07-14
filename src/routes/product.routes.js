@@ -9,6 +9,9 @@ import {
 } from "../controllers/product.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const router = Router();
 
@@ -22,3 +25,4 @@ router.route("/:id").patch(updateProduct);
 router.route("/:id").delete(deleteProduct);
 
 export default router;
+

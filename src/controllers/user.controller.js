@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import User from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import jwt from "jsonwebtoken";
 
 const cookiesOptions = {
   httpOnly: true,
@@ -30,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (userId === "") {
     return ApiError(400, "All fields are required");
   }
-  
+
   const existedUser = await User.findOne({ userId });
 
   if (existedUser) {
@@ -43,9 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(
-      new ApiResponse(200, "User registered successfully", user)
-    );
+    .json(new ApiResponse(200, "User registered successfully", user));
 });
 
 const loginUser = asyncHandler(async (req, res) => {
